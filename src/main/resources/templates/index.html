@@ -1,0 +1,121 @@
+<!--
+ * @Author: JohnYehyo
+ * @Date: 2022-06-30 23:16:38
+ * @LastEditors: JohnYehyo
+ * @LastEditTime: 2022-07-01 00:11:40
+ * @Description: file content
+ * @FilePath: \react-tailwindcss-learnc:\Users\叶佳楠\Desktop\index.html
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.27.2/axios.min.js"></script>
+<!--    <script type="text/javascript" th:src="@{index.js}"></script>-->
+    <title>enjoy</title>
+</head>
+
+<body>
+<div id="root"
+     class="overflow-hidden bg-gradient-to-r from-green-400 to-blue-500 w-screen h-screen flex flex-row grid grid-cols-2 gap-4">
+    <div class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 col-span-1">
+        <div class="max-w-md w-full space-y-8">
+            <div>
+                <img class="mx-auto h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                     alt="Workflow">
+                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">解除混淆</h2>
+                <p class="mt-2 text-center text-sm text-gray-600">
+                    <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500"> 开始试试吧</a>
+                </p>
+            </div>
+            <form class="mt-8 space-y-6" action="#" method="POST">
+                <input type="hidden" name="remember" value="true">
+                <div class="rounded-md shadow-sm -space-y-px">
+                    <div>
+                        <label for="img-address" class="sr-only">图片地址</label>
+                        <input id="img-address" name="imgUrl" type="text" required
+                               class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                               placeholder="在这里输入图片地址">
+                    </div>
+                    <div>
+                        <label for="key_id" class="sr-only">密钥</label>
+                        <input id="key_id" name="key" type="text" required
+                               class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                               placeholder="在这里输入密钥">
+                    </div>
+                    <div>
+                        <label for="type_id" class="sr-only">模式</label>
+                        <select id="type_id" name="type"
+                                class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="rc">兼容PicEncrypt: 行+列模式</option>
+                            <option value="r">兼容PicEncrypt: 行模式</option>
+<!--                            <option value="b">方块混淆</option>-->
+<!--                            <option value="c2">行像素混淆</option>-->
+<!--                            <option value="c">像素混淆</option>-->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <div class="text-sm">
+                        <a href="https://github.com/JohnYehyo" class="font-medium text-indigo-600 hover:text-indigo-500"> 联系我?
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="button" onclick="decry()"
+                            class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                                <!-- Heroicon name: solid/lock-closed -->
+                                <svg class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
+                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                     aria-hidden="true">
+                                    <path fill-rule="evenodd"
+                                          d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                                          clip-rule="evenodd"/>
+                                </svg>
+                            </span>
+                        开始
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 col-span-1">
+        <img id="image" class="max-w-none object-cover w-auto h-auto " src="" alt="" width="384"
+             height="512">
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    function decry(){
+        axios({
+            method: "post",
+            headers: {
+                'Content-Type': 'application/json;charset=UTF-8'
+            },
+            url: "http://localhost:8087/image/decry",
+            data: {
+                imgUrl: document.getElementById("img-address").value,
+                key: parseFloat(document.getElementById("key_id").value),
+                type: document.getElementById("type_id").value
+            }
+        }).then(res => {
+            if(res.data.code == 0){
+                document.getElementById("image").src = "http://localhost:8087/image/file" + res.data.data;
+            }else{
+                alert(res.data.msg)
+            }
+        }).catch(function (err) {
+            // 请求失败返回
+            console.log(err);
+        })
+    }
+
+</script>
+</html>

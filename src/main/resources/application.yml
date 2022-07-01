@@ -1,0 +1,23 @@
+server:
+  port: 8087
+  servlet:
+    context-path: /image
+
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  application:
+    name: rjsoft
+  thymeleaf:
+    cache: false
+    mode: HTML
+
+#文件存储路径
+file:
+  path: D:\other\file
+  image: /image
+  upload: /upload
+  maxSize: 100
+  avatarMaxSize: 5
+  suffix: .jpg
